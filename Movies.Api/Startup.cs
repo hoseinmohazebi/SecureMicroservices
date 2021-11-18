@@ -2,17 +2,19 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Movies.Api.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Movie.Api
+namespace Movies.Api
 {
     public class Startup
     {
@@ -30,7 +32,12 @@ namespace Movie.Api
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Movie.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Movies.Api", Version = "v1" });
+            });
+
+            services.AddDbContext<MoviesContext>(options =>
+            {
+                options.UseInMemoryDatabase("Movies");
             });
         }
 
@@ -41,7 +48,7 @@ namespace Movie.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Movie.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Movies.Api v1"));
             }
 
             app.UseHttpsRedirection();
