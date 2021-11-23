@@ -57,7 +57,7 @@ namespace Movies.Api
             {
                 option.AddPolicy("clientIdPolicy", policy =>
                 {
-                    policy.RequireClaim("client_id", "movieClient");
+                    policy.RequireClaim("client_id", "movieClient", "movies_mvc_client");
                 });
             });
         }

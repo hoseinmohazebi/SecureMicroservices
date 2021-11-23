@@ -18,43 +18,38 @@ namespace IdentityServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets = { new Secret("secret".Sha256()) },
                     AllowedScopes = { "movieAPI" }
+                },
+                new Client
+                {
+                    ClientId = "movies_mvc_client",
+                    ClientName = "Movies MVC Web App",
+                    //AllowedGrantTypes = GrantTypes.Code,
+                    AllowRememberConsent = false,
+                    RedirectUris = new List<string>()
+                    {
+                        "https://localhost:5002/signin-oidc"
+                    },
+                    PostLogoutRedirectUris = new List<string>()
+                    {
+                        "https://localhost:5002/signout-callback-oidc"
+                    },
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Address,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "movieAPI",
+                        "roles"
+                    },
+                    // for hybrid flow
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    RequirePkce = false,
                 }
-                   //new Client
-                   //{
-                   //     ClientId = "movieClient",
-                   //     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                   //     ClientSecrets =
-                   //     {
-                   //         new Secret("secret".Sha256())
-                   //     },
-                   //     AllowedScopes = { "movieAPI" }
-                   //}
-                   ,
-                   new Client
-                   {
-                       ClientId = "movies_mvc_client",
-                       ClientName = "Movies MVC Web App",
-                       AllowedGrantTypes = GrantTypes.Code,
-                       RequirePkce = false,
-                       AllowRememberConsent = false,
-                       RedirectUris = new List<string>()
-                       {
-                           "https://localhost:5002/signin-oidc"
-                       },
-                       PostLogoutRedirectUris = new List<string>()
-                       {
-                           "https://localhost:5002/signout-callback-oidc"
-                       },
-                       ClientSecrets = new List<Secret>
-                       {
-                           new Secret("secret".Sha256())
-                       },
-                       AllowedScopes = new List<string>
-                       {
-                           IdentityServerConstants.StandardScopes.OpenId,
-                           IdentityServerConstants.StandardScopes.Profile
-                       }
-                   }
             };
 
         // protected apis
@@ -78,12 +73,12 @@ namespace IdentityServer
           {
               new IdentityResources.OpenId(),
               new IdentityResources.Profile(),
-              //new IdentityResources.Address(),
-              //new IdentityResources.Email(),
-              //new IdentityResource(
-              //      "roles",
-              //      "Your role(s)",
-              //      new List<string>() { "role" })
+              new IdentityResources.Address(),
+              new IdentityResources.Email(),
+              new IdentityResource(
+                    "roles",
+                    "Your role(s)",
+                    new List<string>() { "role" })
           };
 
         public static List<TestUser> TestUsers =>

@@ -1,3 +1,4 @@
+using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,7 +22,7 @@ namespace IdentityServer
             services.AddIdentityServer()
                 .AddInMemoryClients(Config.Clients)
                 .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddTestUsers(Config.TestUsers)
+                .AddTestUsers(TestUsers.Users)
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddDeveloperSigningCredential();
         }
